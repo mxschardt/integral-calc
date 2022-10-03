@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import reactLogo from '../public/react.svg';
+import turtleLogo from './accets/turtle.svg';
 import './App.css';
 
 function App() {
@@ -8,8 +8,8 @@ function App() {
   return (
     <div className="App">
       <div>
-        <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
+        <a href="https://youtu.be/Wl9oUBgFk6Y" target="_blank" rel="noreferrer">
+          <img src={turtleLogo} className="logo" alt="logo" />
         </a>
       </div>
 
