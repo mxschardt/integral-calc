@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import reactLogo from '/react.svg';
+import reactLogo from '../public/react.svg';
 import './App.css';
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <div>
-        <a href="https://reactjs.org" target="_blank">
+        <a href="https://reactjs.org" target="_blank" rel="noreferrer">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
@@ -17,6 +17,7 @@ function App() {
 
       <div className="card">
         <button
+          type="button"
           className="count-btn"
           onClick={() => setCount((count) => count + 1)}
         >
@@ -26,5 +27,9 @@ function App() {
     </div>
   );
 }
+
+export const getSquare = (x) => {
+  return x * x;
+};
 
 export default App;
