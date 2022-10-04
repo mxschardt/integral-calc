@@ -10,9 +10,11 @@
   padding: 1.5em;
   will-change: filter;
 }
-
-.logo:hover {
+.turtle.logo:hover {
   filter: drop-shadow(0 0 2em #BDCF47);
+}
+.panda.logo:hover {
+  filter: drop-shadow(0 0 2em #3d3d3d);
 }
 
 .card {
@@ -35,11 +37,9 @@ h1 {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-
 .count-btn:hover {
   border-color: #6E823A;
 }
-
 .count-btn:focus,
 .count-btn:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
