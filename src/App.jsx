@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import turtleLogo from './accets/turtle.svg';
+import pandaLogo from './accets/panda.svg';
 import './App.css';
 
 function App() {
@@ -9,7 +10,10 @@ function App() {
     <div className="App">
       <div>
         <a href="https://youtu.be/Wl9oUBgFk6Y" target="_blank" rel="noreferrer">
-          <img src={turtleLogo} className="logo" alt="logo" />
+          <img src={turtleLogo} className="logo turtle" alt="turtle" />
+        </a>
+        <a href="https://youtu.be/2rC7vrJwfnI" target="_blank" rel="noreferrer">
+          <img src={pandaLogo} className="logo panda" alt="panda" />
         </a>
       </div>
 
