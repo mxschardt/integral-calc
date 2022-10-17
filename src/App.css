@@ -1,46 +1,135 @@
 #root {
-  max-width: 1280px;
+  --bg-base: #f2f2f2;
+  --bg-input: #ffffff;
+  --bg-main: #3c9180;
+  --bg-second: #dcf6ef;
+  --text-main: #00414e;
+
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
+.App {
+  color: var(--text-main);
+  background-color: var(--bg-base);
+}
+main {
+  min-height: 85vh;
 }
 
-.logo:hover {
-  filter: drop-shadow(0 0 2em #BDCF47);
+/* HEADER */
+.App h1 {
+  margin: 0;
+  padding: 2rem 0;
+
+  font-weight: bold;
+  font-size: 2rem;
+  line-height: 1;
+
+  background-color: var(--bg-main);
+  color: var(--bg-second);
 }
 
-.card {
-  padding: 2em;
+/* INPUTS */
+.input {
+  padding: 0.2rem;
+
+  min-width: 1rem;
+
+  font-size: 1rem;
+  text-align: center;
+  color: var(--text-main);
+  background-color: var(--bg-input);
+
+  border: solid 2px var(--text-main);
+  border-radius: 5px;
+}
+/* disable spin-buttons */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* EQUATION INPUT*/
+#integral-input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  margin: 2rem 0;
+}
+#equation,
+#result textarea {
+  margin-right: 0.5rem;
+
+  min-height: 4rem;
+  min-width: clamp(1rem, 10rem + 20vw, 20rem);
+  resize: none;
+}
+#integral .input {
+  width: 3rem;
+
+  border: none;
+  background-color: var(--bg-base);
+}
+#integral {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#integral-input span {
+  font-style: italic;
+  font-size: 2rem;
+}
+#integral-sigh {
+  font-size: 6rem !important;
+  line-height: 1.2;
+}
+#lower-limit {
+  /* Correction for the integral sigh */
+  position: relative;
+  top: -14px;
 }
 
-.count-btn {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #f9f9f9;
-  cursor: pointer;
-  transition: border-color 0.25s;
+/* OPTIONS */
+#options {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+#step {
+  width: 3rem;
+  margin-left: 0.5rem;
 }
 
-.count-btn:hover {
-  border-color: #6E823A;
+/* SOLVE BUTTON */
+#solve-btn {
+  margin: 2rem 0;
+  padding: 0.2rem 2rem;
+
+  font-size: 2rem;
+  color: var(--bg-second);
+
+  background-color: var(--bg-main);
+  border-radius: 5px;
+  border: none;
+  filter: drop-shadow(0px 8px 0px var(--text-main));
+}
+#solve-btn:active {
+  filter: none;
+  transform: translateY(8px);
 }
 
-.count-btn:focus,
-.count-btn:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+/* FOOTER */
+footer {
+  color: var(--bg-main);
+  background-color: var(--bg-second);
+  font-size: 0.8rem;
+  letter-spacing: 0.1rem;
 }
