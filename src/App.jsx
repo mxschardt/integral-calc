@@ -57,7 +57,7 @@ function App() {
             <option value="constant-step">Постоянный шаг</option>
             <option value="variable-step">Переменный шаг</option>
           </select>
-          <label for="step">
+          <label htmlFor="step">
             Шаг
             <input type="number" id="step" className="input" required />
           </label>
@@ -82,7 +82,7 @@ function App() {
   );
 }
 
-const Integral = () => {
+function Integral() {
   return (
     <svg
       width="46"
@@ -97,6 +97,6 @@ const Integral = () => {
       />
     </svg>
   );
-};
+}
 
 export default App;
