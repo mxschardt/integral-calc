@@ -69,7 +69,7 @@ function App() {
 
         <section id="result">
           <h2>Результат</h2>
-          <textarea className="input" readOnly />
+          <input type="text" className="input" readOnly />
         </section>
       </main>
       <footer>
