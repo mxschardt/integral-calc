@@ -37,7 +37,7 @@ function App() {
         <div id="options">
           {/* add gray fields */}
           <select name="method" id="method" className="input select" required>
-            <option value="" disabled>
+            <option value="" selected="selected" disabled>
               Метод
             </option>
             <option value="left-square">Прямоугольников левых частей</option>
@@ -51,7 +51,7 @@ function App() {
             className="input select"
             required
           >
-            <option value="" disabled>
+            <option value="" selected="selected" disabled>
               Алгоритм
             </option>
             <option value="constant-step">Постоянный шаг</option>
