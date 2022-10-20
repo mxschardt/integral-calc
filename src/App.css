@@ -103,13 +103,14 @@ input[type='number'] {
   align-items: center;
   gap: 1rem;
 }
-#step {
+#step, #precision {
   width: 3rem;
   margin-left: 0.5rem;
 }
 #options label {
   display: grid;
   grid: 1fr 1fr / 1fr;
+  justify-items: center;
 }
 
 /* SOLVE BUTTON */

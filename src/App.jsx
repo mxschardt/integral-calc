@@ -1,24 +1,55 @@
 import { useState } from 'react';
 import { create, all } from 'mathjs';
+import {
+  leftRectIntegral,
+  leftRectIntegralVariable,
+  rightRectIntegral,
+  rightRectIntegralVariable,
+  simpson,
+  trapezoidal,
+} from '../lib/integralSolver';
 import './App.css';
-import leftRectIntegral from '../lib/integralSolver';
 
 function App() {
   const [equation, setEquation] = useState('');
   const [result, setResult] = useState('');
   const [[limitA, limitB], setLimits] = useState([null, null]);
   const [step, setStep] = useState(0);
-  const [method, setMethod] = useState('');
-  const [algorithm, setAlgorithm] = useState('');
+  const [presicion, setPrecision] = useState(0);
+  const [method, setMethod] = useState('left-square');
+  const [algorithm, setAlgorithm] = useState('constant-step');
 
   const math = create(all, {});
 
   const solveEquaton = (e) => {
     e.preventDefault();
 
-    const sum = leftRectIntegral(limitA, limitB, step, (x) =>
-      math.evaluate(equation, { x })
-    );
+    const wrapper = (x) => math.evaluate(equation, { x });
+
+    let sum;
+
+    switch (method) {
+      case 'left-square':
+        sum =
+          algorithm === 'constant-step'
+            ? leftRectIntegral(limitA, limitB, step, wrapper)
+            : leftRectIntegralVariable(limitA, limitB, step, wrapper);
+        break;
+      case 'right-square':
+        sum =
+          algorithm === 'constant-step'
+            ? rightRectIntegral(limitA, limitB, step, wrapper)
+            : rightRectIntegralVariable(limitA, limitB, step, wrapper);
+        break;
+      case 'trapezoidal':
+        sum = trapezoidal(limitA, limitB, step, wrapper);
+        break;
+      case 'simpson':
+        sum = simpson(limitA, limitB, step, wrapper);
+        break;
+      default:
+        sum = null;
+    }
 
     setResult(sum);
   };
@@ -81,6 +112,18 @@ function App() {
             </select>
           </label>
 
+          <label htmlFor="step">
+            Количество разбиений
+            <input
+              type="number"
+              id="step"
+              className="input"
+              required
+              value={step}
+              onChange={(e) => setStep(e.target.value)}
+            />
+          </label>
+
           <label htmlFor="algorithm">
             Алгоритм
             <select
@@ -95,28 +138,19 @@ function App() {
             </select>
           </label>
 
-          <select
-            name="algorithm"
-            id="algorithm"
-            className="input select"
-            required
-            onChange={(e) => setAlgorithm(e.target.value)}
-          >
-            <option value="constant-step">Постоянный шаг</option>
-            <option value="variable-step">Переменный шаг</option>
-          </select>
-
-          <label htmlFor="step">
-            Количество разбиений
-            <input
-              type="number"
-              id="step"
-              className="input"
-              required
-              value={step}
-              onChange={(e) => setStep(e.target.value)}
-            />
-          </label>
+          {algorithm === 'variable-step' && (
+            <label htmlFor="precision">
+              Точность
+              <input
+                type="number"
+                id="precision"
+                className="input"
+                required
+                value={presicion}
+                onChange={(e) => setPrecision(e.target.value)}
+              />
+            </label>
+          )}
         </div>
 
         <button type="submit" id="solve-btn">
