@@ -1,10 +1,32 @@
+import { useState } from 'react';
+import { create, all } from 'mathjs';
 import './App.css';
+import leftRectIntegral from '../lib/integralSolver';
 
 function App() {
+  const [equation, setEquation] = useState('');
+  const [result, setResult] = useState('');
+  const [[limitA, limitB], setLimits] = useState([null, null]);
+  const [step, setStep] = useState(0);
+  const [method, setMethod] = useState('');
+  const [algorithm, setAlgorithm] = useState('');
+
+  const math = create(all, {});
+
+  const solveEquaton = (e) => {
+    e.preventDefault();
+
+    const sum = leftRectIntegral(limitA, limitB, step, (x) =>
+      math.evaluate(equation, { x })
+    );
+
+    setResult(sum);
+  };
+
   return (
     <section className="App">
       <h1>Калькулятор Определенных Интегралов</h1>
-      <main>
+      <form onSubmit={solveEquaton}>
         <div id="integral-input">
           <div id="integral">
             <input
@@ -13,6 +35,8 @@ function App() {
               className="input"
               placeholder="b"
               required
+              value={limitB}
+              onChange={(e) => setLimits([limitA, +e.target.value])}
             />
             <span id="integral-sigh">
               <Integral />
@@ -23,6 +47,8 @@ function App() {
               className="input"
               placeholder="a"
               required
+              value={limitA}
+              onChange={(e) => setLimits([+e.target.value, limitB])}
             />
           </div>
           <input
@@ -31,20 +57,27 @@ function App() {
             className="input"
             placeholder="sin(x)"
             required
+            value={equation}
+            onChange={(e) => setEquation(e.target.value)}
           />
           <span>dx</span>
         </div>
         <div id="options">
-          {/* add gray fields */}
           <label htmlFor="method">
             Метод
-            <select name="method" id="method" className="input select" required>
+            <select
+              name="method"
+              id="method"
+              className="input select"
+              required
+              onChange={(e) => setMethod(e.target.value)}
+            >
               <option value="left-square">Прямоугольников левых частей</option>
               <option value="rigth-square">
                 Прямоугольников правых частей
               </option>
-              <option value="Trapezoidal">Трапеций</option>
-              <option value="Simpson">Парабол</option>
+              <option value="trapezoidal">Трапеций</option>
+              <option value="simpson">Парабол</option>
             </select>
           </label>
 
@@ -55,27 +88,46 @@ function App() {
               id="algorithm"
               className="input select"
               required
+              onChange={(e) => setAlgorithm(e.target.value)}
             >
               <option value="constant-step">Постоянный шаг</option>
               <option value="variable-step">Переменный шаг</option>
             </select>
           </label>
 
+          <select
+            name="algorithm"
+            id="algorithm"
+            className="input select"
+            required
+            onChange={(e) => setAlgorithm(e.target.value)}
+          >
+            <option value="constant-step">Постоянный шаг</option>
+            <option value="variable-step">Переменный шаг</option>
+          </select>
+
           <label htmlFor="step">
-            Шаг
-            <input type="number" id="step" className="input" required />
+            Количество разбиений
+            <input
+              type="number"
+              id="step"
+              className="input"
+              required
+              value={step}
+              onChange={(e) => setStep(e.target.value)}
+            />
           </label>
         </div>
 
-        <button type="button" id="solve-btn">
+        <button type="submit" id="solve-btn">
           Решить
         </button>
 
         <section id="result">
           <h2>Результат</h2>
-          <input type="text" className="input" readOnly />
+          <input type="text" className="input" readOnly value={result} />
         </section>
-      </main>
+      </form>
       <footer>
         <h3>
           Васильева Марина × Балаев Жамал × Иванов Никита × Рожков Максим ×
