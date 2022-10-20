@@ -36,27 +36,31 @@ function App() {
         </div>
         <div id="options">
           {/* add gray fields */}
-          <select name="method" id="method" className="input select" required>
-            <option value="" selected="selected" disabled>
-              Метод
-            </option>
-            <option value="left-square">Прямоугольников левых частей</option>
-            <option value="rigth-square">Прямоугольников правых частей</option>
-            <option value="Trapezoidal">Трапеций</option>
-            <option value="Simpson">Парабол</option>
-          </select>
-          <select
-            name="algorithm"
-            id="algorithm"
-            className="input select"
-            required
-          >
-            <option value="" selected="selected" disabled>
-              Алгоритм
-            </option>
-            <option value="constant-step">Постоянный шаг</option>
-            <option value="variable-step">Переменный шаг</option>
-          </select>
+          <label htmlFor="method">
+            Метод
+            <select name="method" id="method" className="input select" required>
+              <option value="left-square">Прямоугольников левых частей</option>
+              <option value="rigth-square">
+                Прямоугольников правых частей
+              </option>
+              <option value="Trapezoidal">Трапеций</option>
+              <option value="Simpson">Парабол</option>
+            </select>
+          </label>
+
+          <label htmlFor="algorithm">
+            Алгоритм
+            <select
+              name="algorithm"
+              id="algorithm"
+              className="input select"
+              required
+            >
+              <option value="constant-step">Постоянный шаг</option>
+              <option value="variable-step">Переменный шаг</option>
+            </select>
+          </label>
+
           <label htmlFor="step">
             Шаг
             <input type="number" id="step" className="input" required />
