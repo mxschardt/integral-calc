@@ -21,35 +21,40 @@ function App() {
 
   const math = create(all, {});
 
-  const solveEquaton = (e) => {
-    e.preventDefault();
-
+  const getIntegralValue = () => {
     const wrapper = (x) => math.evaluate(equation, { x });
-
-    let sum;
 
     switch (method) {
       case 'left-square':
-        sum =
-          algorithm === 'constant-step'
-            ? leftRectIntegral(limitA, limitB, step, wrapper)
-            : leftRectIntegralVariable(limitA, limitB, step, wrapper);
-        break;
+        if (variableStep) {
+          return leftRectIntegralVariable(
+            limitA,
+            limitB,
+            step,
+            presicion,
+            wrapper
+          );
+        }
+        return leftRectIntegral(limitA, limitB, step, wrapper);
       case 'right-square':
-        sum =
-          algorithm === 'constant-step'
-            ? rightRectIntegral(limitA, limitB, step, wrapper)
-            : rightRectIntegralVariable(limitA, limitB, step, wrapper);
-        break;
+        if (variableStep) {
+          return rightRectIntegralVariable(
+            limitA,
+            limitB,
+            step,
+            presicion,
+            wrapper
+          );
+        }
+        return rightRectIntegral(limitA, limitB, step, wrapper);
       case 'trapezoidal':
-        sum = trapezoidal(limitA, limitB, step, wrapper);
-        break;
+        return trapezoidal(limitA, limitB, step, wrapper);
       case 'simpson':
-        sum = simpson(limitA, limitB, step, wrapper);
-        break;
+        return simpson(limitA, limitB, step, wrapper);
       default:
-        sum = null;
+        return null;
     }
+  };
 
     setResult(sum);
   };
