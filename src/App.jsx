@@ -17,7 +17,7 @@ function App() {
   const [step, setStep] = useState(0);
   const [presicion, setPrecision] = useState(0);
   const [method, setMethod] = useState('left-square');
-  const [algorithm, setAlgorithm] = useState('constant-step');
+  const [variableStep, setVariableStep] = useState(false);
 
   const math = create(all, {});
 
@@ -56,7 +56,12 @@ function App() {
     }
   };
 
-    setResult(sum);
+  const solveEquaton = (e) => {
+    e.preventDefault();
+
+    const integralResult = getIntegralValue();
+
+    setResult(integralResult);
   };
 
   return (
@@ -71,7 +76,7 @@ function App() {
               className="input"
               placeholder="b"
               required
-              value={limitB}
+              value={limitB ? limitB.toString() : ''}
               onChange={(e) => setLimits([limitA, +e.target.value])}
             />
             <span id="integral-sigh">
@@ -83,7 +88,7 @@ function App() {
               className="input"
               placeholder="a"
               required
-              value={limitA}
+              value={limitA ? limitA.toString() : ''}
               onChange={(e) => setLimits([+e.target.value, limitB])}
             />
           </div>
@@ -124,26 +129,25 @@ function App() {
               id="step"
               className="input"
               required
-              value={step}
-              onChange={(e) => setStep(e.target.value)}
+              value={step ? step.toString() : ''}
+              onChange={(e) => setStep(+e.target.value)}
             />
           </label>
 
-          <label htmlFor="algorithm">
-            Алгоритм
-            <select
-              name="algorithm"
-              id="algorithm"
-              className="input select"
-              required
-              onChange={(e) => setAlgorithm(e.target.value)}
-            >
-              <option value="constant-step">Постоянный шаг</option>
-              <option value="variable-step">Переменный шаг</option>
-            </select>
-          </label>
+          {(method === 'left-square' || method === 'right-square') && (
+            <label htmlFor="variable-step">
+              Переменный шаг
+              <input
+                type="checkbox"
+                id="variable-step"
+                name="variable-step"
+                defaultChecked={variableStep}
+                onChange={() => setVariableStep(!variableStep)}
+              />
+            </label>
+          )}
 
-          {algorithm === 'variable-step' && (
+          {variableStep && (
             <label htmlFor="precision">
               Точность
               <input
@@ -151,8 +155,8 @@ function App() {
                 id="precision"
                 className="input"
                 required
-                value={presicion}
-                onChange={(e) => setPrecision(e.target.value)}
+                value={presicion ? presicion.toString() : ''}
+                onChange={(e) => setPrecision(+e.target.value)}
               />
             </label>
           )}
