@@ -1,26 +1,67 @@
 import { useState } from 'react';
 import { create, all } from 'mathjs';
+import {
+  leftRectIntegral,
+  leftRectIntegralVariable,
+  rightRectIntegral,
+  rightRectIntegralVariable,
+  simpson,
+  trapezoidal,
+} from '../lib/integralSolver';
 import './App.css';
-import leftRectIntegral from '../lib/integralSolver';
 
 function App() {
   const [equation, setEquation] = useState('');
   const [result, setResult] = useState('');
   const [[limitA, limitB], setLimits] = useState([null, null]);
   const [step, setStep] = useState(0);
-  const [method, setMethod] = useState('');
-  const [algorithm, setAlgorithm] = useState('');
+  const [presicion, setPrecision] = useState(0);
+  const [method, setMethod] = useState('left-square');
+  const [variableStep, setVariableStep] = useState(false);
 
   const math = create(all, {});
+
+  const getIntegralValue = () => {
+    const wrapper = (x) => math.evaluate(equation, { x });
+
+    switch (method) {
+      case 'left-square':
+        if (variableStep) {
+          return leftRectIntegralVariable(
+            limitA,
+            limitB,
+            step,
+            presicion,
+            wrapper
+          );
+        }
+        return leftRectIntegral(limitA, limitB, step, wrapper);
+      case 'right-square':
+        if (variableStep) {
+          return rightRectIntegralVariable(
+            limitA,
+            limitB,
+            step,
+            presicion,
+            wrapper
+          );
+        }
+        return rightRectIntegral(limitA, limitB, step, wrapper);
+      case 'trapezoidal':
+        return trapezoidal(limitA, limitB, step, wrapper);
+      case 'simpson':
+        return simpson(limitA, limitB, step, wrapper);
+      default:
+        return null;
+    }
+  };
 
   const solveEquaton = (e) => {
     e.preventDefault();
 
-    const sum = leftRectIntegral(limitA, limitB, step, (x) =>
-      math.evaluate(equation, { x })
-    );
+    const integralResult = getIntegralValue();
 
-    setResult(sum);
+    setResult(integralResult);
   };
 
   return (
@@ -35,7 +76,7 @@ function App() {
               className="input"
               placeholder="b"
               required
-              value={limitB}
+              value={limitB ? limitB.toString() : ''}
               onChange={(e) => setLimits([limitA, +e.target.value])}
             />
             <span id="integral-sigh">
@@ -47,7 +88,7 @@ function App() {
               className="input"
               placeholder="a"
               required
-              value={limitA}
+              value={limitA ? limitA.toString() : ''}
               onChange={(e) => setLimits([+e.target.value, limitB])}
             />
           </div>
@@ -63,34 +104,23 @@ function App() {
           <span>dx</span>
         </div>
         <div id="options">
-          <select
-            name="method"
-            id="method"
-            className="input select"
-            required
-            onChange={(e) => setMethod(e.target.value)}
-          >
-            <option value="" selected="selected" disabled>
-              Метод
-            </option>
-            <option value="left-rect">Прямоугольников левых частей</option>
-            <option value="rigth-rect">Прямоугольников правых частей</option>
-            <option value="trapezoidal">Трапеций</option>
-            <option value="simpson">Парабол</option>
-          </select>
-          <select
-            name="algorithm"
-            id="algorithm"
-            className="input select"
-            required
-            onChange={(e) => setAlgorithm(e.target.value)}
-          >
-            <option value="" selected="selected" disabled>
-              Алгоритм
-            </option>
-            <option value="constant-step">Постоянный шаг</option>
-            <option value="variable-step">Переменный шаг</option>
-          </select>
+          <label htmlFor="method">
+            Метод
+            <select
+              name="method"
+              id="method"
+              className="input select"
+              required
+              onChange={(e) => setMethod(e.target.value)}
+            >
+              <option value="left-square">Прямоугольников левых частей</option>
+              <option value="right-square">
+                Прямоугольников правых частей
+              </option>
+              <option value="trapezoidal">Трапеций</option>
+              <option value="simpson">Парабол</option>
+            </select>
+          </label>
           <label htmlFor="step">
             Количество разбиений
             <input
@@ -98,8 +128,34 @@ function App() {
               id="step"
               className="input"
               required
-              value={step}
-              onChange={(e) => setStep(e.target.value)}
+              value={step ? step.toString() : ''}
+              onChange={(e) => setStep(+e.target.value)}
+            />
+          </label>
+          <label htmlFor="variable-step">
+            Переменный шаг
+            <input
+              type="checkbox"
+              id="variable-step"
+              name="variable-step"
+              className="input"
+              defaultChecked={variableStep}
+              onChange={() => setVariableStep(!variableStep)}
+              disabled={
+                !(method === 'left-square' || method === 'right-square')
+              }
+            />
+          </label>
+          <label htmlFor="precision">
+            Точность
+            <input
+              type="number"
+              id="precision"
+              className="input"
+              required
+              value={presicion ? presicion.toString() : ''}
+              onChange={(e) => setPrecision(+e.target.value)}
+              disabled={!variableStep}
             />
           </label>
         </div>
