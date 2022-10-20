@@ -114,14 +114,13 @@ function App() {
               onChange={(e) => setMethod(e.target.value)}
             >
               <option value="left-square">Прямоугольников левых частей</option>
-              <option value="rigth-square">
+              <option value="right-square">
                 Прямоугольников правых частей
               </option>
               <option value="trapezoidal">Трапеций</option>
               <option value="simpson">Парабол</option>
             </select>
           </label>
-
           <label htmlFor="step">
             Количество разбиений
             <input
@@ -133,33 +132,32 @@ function App() {
               onChange={(e) => setStep(+e.target.value)}
             />
           </label>
-
-          {(method === 'left-square' || method === 'right-square') && (
-            <label htmlFor="variable-step">
-              Переменный шаг
-              <input
-                type="checkbox"
-                id="variable-step"
-                name="variable-step"
-                defaultChecked={variableStep}
-                onChange={() => setVariableStep(!variableStep)}
-              />
-            </label>
-          )}
-
-          {variableStep && (
-            <label htmlFor="precision">
-              Точность
-              <input
-                type="number"
-                id="precision"
-                className="input"
-                required
-                value={presicion ? presicion.toString() : ''}
-                onChange={(e) => setPrecision(+e.target.value)}
-              />
-            </label>
-          )}
+          <label htmlFor="variable-step">
+            Переменный шаг
+            <input
+              type="checkbox"
+              id="variable-step"
+              name="variable-step"
+              className="input"
+              defaultChecked={variableStep}
+              onChange={() => setVariableStep(!variableStep)}
+              disabled={
+                !(method === 'left-square' || method === 'right-square')
+              }
+            />
+          </label>
+          <label htmlFor="precision">
+            Точность
+            <input
+              type="number"
+              id="precision"
+              className="input"
+              required
+              value={presicion ? presicion.toString() : ''}
+              onChange={(e) => setPrecision(+e.target.value)}
+              disabled={!variableStep}
+            />
+          </label>
         </div>
 
         <button type="submit" id="solve-btn">
