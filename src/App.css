@@ -70,7 +70,7 @@ input[type='number'] {
   margin-right: 0.5rem;
 
   min-height: 4rem;
-  min-width: clamp(1rem, 10rem + 20vw, 20rem);
+  min-width: clamp(1rem, 5rem + 20vw, 20rem);
   resize: none;
 }
 #integral .input {
