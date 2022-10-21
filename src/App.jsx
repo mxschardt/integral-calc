@@ -1,10 +1,73 @@
+import { useState } from 'react';
+import { create, all } from 'mathjs';
+import {
+  leftRectIntegral,
+  leftRectIntegralVariable,
+  rightRectIntegral,
+  rightRectIntegralVariable,
+  simpson,
+  trapezoidal,
+} from '../lib/integralSolver';
 import './App.css';
 
 function App() {
+  const [equation, setEquation] = useState('');
+  const [result, setResult] = useState('');
+  const [[limitA, limitB], setLimits] = useState([null, null]);
+  const [step, setStep] = useState(0);
+  const [presicion, setPrecision] = useState(0);
+  const [method, setMethod] = useState('left-square');
+  const [variableStep, setVariableStep] = useState(false);
+
+  const math = create(all, {});
+
+  const getIntegralValue = () => {
+    const wrapper = (x) => math.evaluate(equation, { x });
+
+    switch (method) {
+      case 'left-square':
+        if (variableStep) {
+          return leftRectIntegralVariable(
+            limitA,
+            limitB,
+            step,
+            presicion,
+            wrapper
+          );
+        }
+        return leftRectIntegral(limitA, limitB, step, wrapper);
+      case 'right-square':
+        if (variableStep) {
+          return rightRectIntegralVariable(
+            limitA,
+            limitB,
+            step,
+            presicion,
+            wrapper
+          );
+        }
+        return rightRectIntegral(limitA, limitB, step, wrapper);
+      case 'trapezoidal':
+        return trapezoidal(limitA, limitB, step, wrapper);
+      case 'simpson':
+        return simpson(limitA, limitB, step, wrapper);
+      default:
+        return null;
+    }
+  };
+
+  const solveEquaton = (e) => {
+    e.preventDefault();
+
+    const integralResult = getIntegralValue();
+
+    setResult(integralResult);
+  };
+
   return (
     <section className="App">
       <h1>Калькулятор Определенных Интегралов</h1>
-      <main>
+      <form onSubmit={solveEquaton}>
         <div id="integral-input">
           <div id="integral">
             <input
@@ -13,6 +76,8 @@ function App() {
               className="input"
               placeholder="b"
               required
+              value={limitB ? limitB.toString() : ''}
+              onChange={(e) => setLimits([limitA, +e.target.value])}
             />
             <span id="integral-sigh">
               <Integral />
@@ -23,6 +88,8 @@ function App() {
               className="input"
               placeholder="a"
               required
+              value={limitA ? limitA.toString() : ''}
+              onChange={(e) => setLimits([+e.target.value, limitB])}
             />
           </div>
           <input
@@ -31,51 +98,77 @@ function App() {
             className="input"
             placeholder="sin(x)"
             required
+            value={equation}
+            onChange={(e) => setEquation(e.target.value)}
           />
           <span>dx</span>
         </div>
         <div id="options">
-          {/* add gray fields */}
           <label htmlFor="method">
             Метод
-            <select name="method" id="method" className="input select" required>
-              <option value="left-square">Прямоугольников левых частей</option>
-              <option value="rigth-square">
-                Прямоугольников правых частей
-              </option>
-              <option value="Trapezoidal">Трапеций</option>
-              <option value="Simpson">Парабол</option>
-            </select>
-          </label>
-
-          <label htmlFor="algorithm">
-            Алгоритм
             <select
-              name="algorithm"
-              id="algorithm"
+              name="method"
+              id="method"
               className="input select"
               required
+              onChange={(e) => setMethod(e.target.value)}
             >
-              <option value="constant-step">Постоянный шаг</option>
-              <option value="variable-step">Переменный шаг</option>
+              <option value="left-square">Прямоугольников левых частей</option>
+              <option value="right-square">
+                Прямоугольников правых частей
+              </option>
+              <option value="trapezoidal">Трапеций</option>
+              <option value="simpson">Парабол</option>
             </select>
           </label>
-
           <label htmlFor="step">
-            Шаг
-            <input type="number" id="step" className="input" required />
+            Количество разбиений
+            <input
+              type="number"
+              id="step"
+              className="input"
+              required
+              value={step ? step.toString() : ''}
+              onChange={(e) => setStep(+e.target.value)}
+            />
+          </label>
+          <label htmlFor="variable-step">
+            Переменный шаг
+            <input
+              type="checkbox"
+              id="variable-step"
+              name="variable-step"
+              className="input"
+              defaultChecked={variableStep}
+              onChange={() => setVariableStep(!variableStep)}
+              disabled={
+                !(method === 'left-square' || method === 'right-square')
+              }
+            />
+          </label>
+          <label htmlFor="precision">
+            Точность
+            <input
+              type="number"
+              id="precision"
+              className="input"
+              required
+              value={presicion ? presicion.toString() : ''}
+              onChange={(e) => setPrecision(+e.target.value)}
+              disabled={!variableStep}
+            />
           </label>
         </div>
 
-        <button type="button" id="solve-btn">
+        <button type="submit" id="solve-btn">
           Решить
         </button>
 
         <section id="result">
           <h2>Результат</h2>
-          <input type="text" className="input" readOnly />
+          <input type="text" className="input" readOnly value={result} />
         </section>
-      </main>
+      </form>
       <footer>
         <h3>
           Васильева Марина × Балаев Жамал × Иванов Никита × Рожков Максим ×

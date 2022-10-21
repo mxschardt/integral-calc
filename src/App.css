@@ -12,7 +12,7 @@
   color: var(--text-main);
   background-color: var(--bg-base);
 }
-main {
+form {
   min-height: 85vh;
 }
 
@@ -42,6 +42,9 @@ main {
 
   border: solid 2px var(--text-main);
   border-radius: 5px;
+}
+.input:disabled {
+  background-color: (var(--bg-base));
 }
 /* disable spin-buttons */
 input::-webkit-outer-spin-button,
@@ -103,13 +106,14 @@ input[type='number'] {
   align-items: center;
   gap: 1rem;
 }
-#step {
+#step, #precision {
   width: 3rem;
   margin-left: 0.5rem;
 }
 #options label {
   display: grid;
   grid: 1fr 1fr / 1fr;
+  justify-items: center;
 }
 
 /* SOLVE BUTTON */
