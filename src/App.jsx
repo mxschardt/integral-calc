@@ -13,9 +13,6 @@ import './App.css';
 function App() {
   const [equation, setEquation] = useState('');
   const [result, setResult] = useState('');
-  // const [[limitA, limitB], setLimits] = useState([null, null]);
-  // const [step, setStep] = useState(0);
-  // const [presicion, setPrecision] = useState(0);
   const [method, setMethod] = useState('left-square');
   const [variableStep, setVariableStep] = useState(false);
 
