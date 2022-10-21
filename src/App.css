@@ -107,7 +107,7 @@ input[type='number'] {
   gap: 1rem;
 }
 #step, #precision {
-  width: 3rem;
+  width: 5rem;
   margin-left: 0.5rem;
 }
 #options label {
