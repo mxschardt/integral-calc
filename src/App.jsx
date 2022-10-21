@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { create, all } from 'mathjs';
 import {
   leftRectIntegral,
@@ -13,16 +13,26 @@ import './App.css';
 function App() {
   const [equation, setEquation] = useState('');
   const [result, setResult] = useState('');
-  const [[limitA, limitB], setLimits] = useState([null, null]);
+  // const [[limitA, limitB], setLimits] = useState([null, null]);
   const [step, setStep] = useState(0);
   const [presicion, setPrecision] = useState(0);
   const [method, setMethod] = useState('left-square');
   const [variableStep, setVariableStep] = useState(false);
 
+  const limitARef = useRef(null);
+  const limitBRef = useRef(null);
   const math = create(all, {});
 
   const getIntegralValue = () => {
     const wrapper = (x) => math.evaluate(equation, { x });
+
+    const limitA = Number(limitARef.current.value);
+    const limitB = Number(limitBRef.current.value);
+
+    if (limitA === limitB) {
+      alert('Пределы должны различаться!');
+      return null;
+    }
 
     switch (method) {
       case 'left-square':
@@ -76,8 +86,7 @@ function App() {
               className="input"
               placeholder="b"
               required
-              value={limitB ? limitB.toString() : ''}
-              onChange={(e) => setLimits([limitA, +e.target.value])}
+              ref={limitBRef}
             />
             <span id="integral-sigh">
               <Integral />
@@ -88,8 +97,7 @@ function App() {
               className="input"
               placeholder="a"
               required
-              value={limitA ? limitA.toString() : ''}
-              onChange={(e) => setLimits([+e.target.value, limitB])}
+              ref={limitARef}
             />
           </div>
           <input
