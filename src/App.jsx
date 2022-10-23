@@ -1,13 +1,6 @@
 import { useState, useRef } from 'react';
 import { create, all } from 'mathjs';
-import {
-  leftRectIntegral,
-  leftRectIntegralVariable,
-  rightRectIntegral,
-  rightRectIntegralVariable,
-  simpson,
-  trapezoidal,
-} from '../lib/integralSolver';
+import getIntegralValue from '../lib/Integrals';
 import './App.css';
 
 function App() {
@@ -19,60 +12,29 @@ function App() {
   const limitARef = useRef(null);
   const limitBRef = useRef(null);
   const stepRef = useRef(null);
-  const presicionRef = useRef(null);
+  const precisionRef = useRef(null);
 
   const math = create(all, {});
-
-  const getIntegralValue = () => {
-    const wrapper = (x) => math.evaluate(equation, { x });
-
-    const limitA = Number(limitARef.current.value);
-    const limitB = Number(limitBRef.current.value);
-    const step = Number(stepRef.current.value);
-    const presicion =
-      presicionRef !== null ? Number(presicionRef.current.value) : null;
-
-    if (limitA === limitB) {
-      alert('Пределы должны различаться!');
-      return null;
-    }
-
-    switch (method) {
-      case 'left-square':
-        if (variableStep) {
-          return leftRectIntegralVariable(
-            limitA,
-            limitB,
-            step,
-            presicion,
-            wrapper
-          );
-        }
-        return leftRectIntegral(limitA, limitB, step, wrapper);
-      case 'right-square':
-        if (variableStep) {
-          return rightRectIntegralVariable(
-            limitA,
-            limitB,
-            step,
-            presicion,
-            wrapper
-          );
-        }
-        return rightRectIntegral(limitA, limitB, step, wrapper);
-      case 'trapezoidal':
-        return trapezoidal(limitA, limitB, step, wrapper);
-      case 'simpson':
-        return simpson(limitA, limitB, step, wrapper);
-      default:
-        return null;
-    }
-  };
 
   const solveEquaton = (e) => {
     e.preventDefault();
 
-    const integralResult = getIntegralValue();
+    const fn = (x) => math.evaluate(equation, { x });
+    const limitA = Number(limitARef.current.value);
+    const limitB = Number(limitBRef.current.value);
+    const step = Number(stepRef.current.value);
+    const precision =
+      precisionRef !== null ? Number(precisionRef.current.value) : null;
+
+    const integralResult = getIntegralValue(
+      limitA,
+      limitB,
+      step,
+      variableStep,
+      fn,
+      method,
+      precision
+    );
 
     setResult(integralResult);
   };
@@ -163,7 +125,7 @@ function App() {
               id="precision"
               className="input"
               step="0.00001"
-              ref={presicionRef}
+              ref={precisionRef}
               required
               disabled={!variableStep}
             />
