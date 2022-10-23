@@ -1,85 +1,45 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, FormEvent } from 'react';
 import { create, all } from 'mathjs';
-import {
-  leftRectIntegral,
-  leftRectIntegralVariable,
-  rightRectIntegral,
-  rightRectIntegralVariable,
-  simpson,
-  trapezoidal,
-} from '../lib/integralSolver';
+import getIntegralValue, { Method } from '../lib/Integrals';
 import './App.css';
 
 function App() {
   const [equation, setEquation] = useState('');
   const [result, setResult] = useState('');
-  const [method, setMethod] = useState('left-square');
+  const [method, setMethod] = useState<Method>('left-square');
   const [variableStep, setVariableStep] = useState(false);
 
-  const limitARef = useRef(null);
-  const limitBRef = useRef(null);
-  const stepRef = useRef(null);
-  const presicionRef = useRef(null);
-
+  const limitARef = useRef<any>(null);
+  const limitBRef = useRef<any>(null);
+  const stepRef = useRef<any>(null);
+  const precisionRef = useRef<any>(null);
+  
   const math = create(all, {});
-
-  const getIntegralValue = () => {
-    const wrapper = (x) => math.evaluate(equation, { x });
-
+  
+  const solveEquaton = (e: FormEvent) => {
+    e.preventDefault();
+    
+    const fn = (x: number) => math.evaluate(equation, { x });
+    // HTML From checks if values exist for us
     const limitA = Number(limitARef.current.value);
     const limitB = Number(limitBRef.current.value);
-    const step = Number(stepRef.current.value);
-    const presicion = presicionRef !== null ? presicionRef.current.value : null;
+    const nSplits = Number(stepRef.current.value);
+    const precision =
+      precisionRef !== null ? Number(precisionRef.current.value) : undefined;
 
-    if (limitA === limitB) {
-      alert('Пределы должны различаться!');
-      return null;
-    }
+    const integralResult = getIntegralValue(
+      { limitA, limitB, nSplits, precision, fn },
+      method,
+      variableStep
+    );
 
-    switch (method) {
-      case 'left-square':
-        if (variableStep) {
-          return leftRectIntegralVariable(
-            limitA,
-            limitB,
-            step,
-            presicion,
-            wrapper
-          );
-        }
-        return leftRectIntegral(limitA, limitB, step, wrapper);
-      case 'right-square':
-        if (variableStep) {
-          return rightRectIntegralVariable(
-            limitA,
-            limitB,
-            step,
-            presicion,
-            wrapper
-          );
-        }
-        return rightRectIntegral(limitA, limitB, step, wrapper);
-      case 'trapezoidal':
-        return trapezoidal(limitA, limitB, step, wrapper);
-      case 'simpson':
-        return simpson(limitA, limitB, step, wrapper);
-      default:
-        return null;
-    }
-  };
-
-  const solveEquaton = (e) => {
-    e.preventDefault();
-
-    const integralResult = getIntegralValue();
-
-    setResult(integralResult);
+    setResult(integralResult?.toString() ?? '');
   };
 
   return (
     <section className="App">
       <h1>Калькулятор Определенных Интегралов</h1>
-      <form onSubmit={solveEquaton}>
+      <form onSubmit={(e) => solveEquaton(e)}>
         <div id="integral-input">
           <div id="integral">
             <input
@@ -121,7 +81,7 @@ function App() {
               id="method"
               className="input select"
               required
-              onChange={(e) => setMethod(e.target.value)}
+              onChange={(e) => setMethod(e.target.value as Method)}
             >
               <option value="left-square">Прямоугольников левых частей</option>
               <option value="right-square">
@@ -162,7 +122,7 @@ function App() {
               id="precision"
               className="input"
               step="0.00001"
-              ref={presicionRef}
+              ref={precisionRef}
               required
               disabled={!variableStep}
             />
