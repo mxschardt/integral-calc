@@ -1,48 +1,45 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, FormEvent } from 'react';
 import { create, all } from 'mathjs';
-import getIntegralValue from '../lib/Integrals';
+import getIntegralValue, { Method } from '../lib/Integrals';
 import './App.css';
 
 function App() {
   const [equation, setEquation] = useState('');
   const [result, setResult] = useState('');
-  const [method, setMethod] = useState('left-square');
+  const [method, setMethod] = useState<Method>('left-square');
   const [variableStep, setVariableStep] = useState(false);
 
-  const limitARef = useRef(null);
-  const limitBRef = useRef(null);
-  const stepRef = useRef(null);
-  const precisionRef = useRef(null);
-
+  const limitARef = useRef<any>(null);
+  const limitBRef = useRef<any>(null);
+  const stepRef = useRef<any>(null);
+  const precisionRef = useRef<any>(null);
+  
   const math = create(all, {});
-
-  const solveEquaton = (e) => {
+  
+  const solveEquaton = (e: FormEvent) => {
     e.preventDefault();
-
-    const fn = (x) => math.evaluate(equation, { x });
+    
+    const fn = (x: number) => math.evaluate(equation, { x });
+    // HTML From checks if values exist for us
     const limitA = Number(limitARef.current.value);
     const limitB = Number(limitBRef.current.value);
-    const step = Number(stepRef.current.value);
+    const nSplits = Number(stepRef.current.value);
     const precision =
-      precisionRef !== null ? Number(precisionRef.current.value) : null;
+      precisionRef !== null ? Number(precisionRef.current.value) : undefined;
 
     const integralResult = getIntegralValue(
-      limitA,
-      limitB,
-      step,
-      variableStep,
-      fn,
+      { limitA, limitB, nSplits, precision, fn },
       method,
-      precision
+      variableStep
     );
 
-    setResult(integralResult);
+    setResult(integralResult?.toString() ?? '');
   };
 
   return (
     <section className="App">
       <h1>Калькулятор Определенных Интегралов</h1>
-      <form onSubmit={solveEquaton}>
+      <form onSubmit={(e) => solveEquaton(e)}>
         <div id="integral-input">
           <div id="integral">
             <input
@@ -84,7 +81,7 @@ function App() {
               id="method"
               className="input select"
               required
-              onChange={(e) => setMethod(e.target.value)}
+              onChange={(e) => setMethod(e.target.value as Method)}
             >
               <option value="left-square">Прямоугольников левых частей</option>
               <option value="right-square">

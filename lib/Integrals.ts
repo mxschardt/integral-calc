@@ -1,69 +1,79 @@
-export function leftRectIntegral(limitA, limitB, nSplits, f) {
+interface IntegralParams {
+  limitA: number;
+  limitB: number;
+  nSplits: number;
+  fn: (x: number) => number;
+  precision?: number;
+}
+
+export type Method = 'left-square' | 'right-square' | 'trapezoidal' | 'simpson';
+
+export function leftRectIntegral(params: IntegralParams) {
+  const { limitA, limitB, nSplits, fn } = params;
   const h = (limitB - limitA) / nSplits;
   let sum = 0;
 
   for (let x = limitA; x <= limitB - h; x += h) {
-    sum += f(x);
+    sum += fn(x);
   }
 
   return sum * h;
 }
 
-export function rightRectIntegral(limitA, limitB, nSplits, f) {
+export function rightRectIntegral(params: IntegralParams) {
+  const { limitA, limitB, nSplits, fn } = params;
   const h = (limitB - limitA) / nSplits;
   let sum = 0;
 
   for (let x = limitA + h; x <= limitB; x += h) {
-    sum += f(x);
+    sum += fn(x);
   }
 
   return sum * h;
 }
 
-export function trapezoidal(limitA, limitB, nSplits, f) {
+export function trapezoidal(params: IntegralParams) {
+  const { limitA, limitB, nSplits, fn } = params;
   const h = (limitB - limitA) / nSplits;
-  let sum = (f(limitA) + f(limitB)) / 2;
+  let sum = (fn(limitA) + fn(limitB)) / 2;
 
   for (let x = limitA + h; x <= limitB - h; x += h) {
-    sum += f(x);
+    sum += fn(x);
   }
 
   return sum * h;
 }
 
-export function simpson(limitA, limitB, nSplits, f) {
+export function simpson(params: IntegralParams) {
+  const { limitA, limitB, nSplits, fn } = params;
   const h = (limitB - limitA) / nSplits;
   let sum1 = 0;
   let sum2 = 0;
   for (let x = limitA + h; x <= limitB - h; x += 2 * h) {
-    sum1 += 4 * f(x);
+    sum1 += 4 * fn(x);
   }
 
   for (let x = limitA + 2 * h; x <= limitB - 2 * h; x += 2 * h) {
-    sum2 += 2 * f(x);
+    sum2 += 2 * fn(x);
   }
 
-  return (h / 3) * (f(limitA) + f(limitB) + sum1 + sum2);
+  return (h / 3) * (fn(limitA) + fn(limitB) + sum1 + sum2);
 }
 
-export function leftRectIntegralVariable(
-  limitA,
-  limitB,
-  nSplits,
-  precision,
-  f
-) {
+export function leftRectIntegralVariable(params: IntegralParams) {
+  const { limitA, limitB, nSplits, fn, precision } = params;
+
   let IN = 0;
   let I2N = 0;
   let R = 1;
   let h = (limitB - limitA) / nSplits;
 
-  while (R > precision) {
+  while (R > (precision ?? 0.0001)) {
     let sum = 0;
     let x = limitA;
 
     for (x = limitA; x <= limitB - h; x += h) {
-      sum += f(x);
+      sum += fn(x);
     }
 
     I2N = h * sum;
@@ -75,23 +85,19 @@ export function leftRectIntegralVariable(
   return I2N;
 }
 
-export function rightRectIntegralVariable(
-  limitA,
-  limitB,
-  nSplits,
-  precision,
-  f
-) {
+export function rightRectIntegralVariable(params: IntegralParams) {
+  const { limitA, limitB, nSplits, fn, precision } = params;
+
   let IN = 0;
   let I2N = 0;
   let R = 1;
   let h = (limitB - limitA) / nSplits;
 
-  while (R > precision) {
+  while (R > (precision ?? 0.001)) {
     let sum = 0;
 
     for (let x = limitA + h; x <= limitB; x += h) {
-      sum += f(x);
+      sum += fn(x);
     }
 
     I2N = h * sum;
@@ -104,14 +110,12 @@ export function rightRectIntegralVariable(
 }
 
 function getIntegralValue(
-  limitA,
-  limitB,
-  step,
-  variableStep,
-  fn,
-  method,
-  precision
+  params: IntegralParams,
+  method: Method,
+  usePrecision: boolean
 ) {
+  const { limitA, limitB } = params;
+
   if (limitA === limitB) {
     console.error('Limits must differ');
     return null;
@@ -119,19 +123,17 @@ function getIntegralValue(
 
   switch (method) {
     case 'left-square':
-      if (variableStep) {
-        return leftRectIntegralVariable(limitA, limitB, step, precision, fn);
-      }
-      return leftRectIntegral(limitA, limitB, step, fn);
+      return usePrecision
+        ? leftRectIntegralVariable(params)
+        : leftRectIntegral(params);
     case 'right-square':
-      if (variableStep) {
-        return rightRectIntegralVariable(limitA, limitB, step, precision, fn);
-      }
-      return rightRectIntegral(limitA, limitB, step, fn);
+      return usePrecision
+        ? rightRectIntegralVariable(params)
+        : rightRectIntegral(params);
     case 'trapezoidal':
-      return trapezoidal(limitA, limitB, step, fn);
+      return trapezoidal(params);
     case 'simpson':
-      return simpson(limitA, limitB, step, fn);
+      return simpson(params);
     default:
       return null;
   }
