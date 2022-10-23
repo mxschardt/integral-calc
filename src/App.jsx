@@ -29,7 +29,8 @@ function App() {
     const limitA = Number(limitARef.current.value);
     const limitB = Number(limitBRef.current.value);
     const step = Number(stepRef.current.value);
-    const presicion = presicionRef !== null ? presicionRef.current.value : null;
+    const presicion =
+      presicionRef !== null ? Number(presicionRef.current.value) : null;
 
     if (limitA === limitB) {
       alert('Пределы должны различаться!');
