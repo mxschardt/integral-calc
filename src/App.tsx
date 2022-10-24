@@ -13,12 +13,12 @@ function App() {
   const limitBRef = useRef<any>(null);
   const stepRef = useRef<any>(null);
   const precisionRef = useRef<any>(null);
-  
+
   const math = create(all, {});
-  
+
   const solveEquaton = (e: FormEvent) => {
     e.preventDefault();
-    
+
     const fn = (x: number) => math.evaluate(equation, { x });
     // HTML From checks if values exist for us
     const limitA = Number(limitARef.current.value);
@@ -47,6 +47,7 @@ function App() {
               id="upper-limit"
               className="input"
               placeholder="b"
+              step="0.00001"
               required
               ref={limitBRef}
             />
@@ -57,6 +58,7 @@ function App() {
               type="number"
               id="lower-limit"
               className="input"
+              step="0.00001"
               placeholder="a"
               required
               ref={limitARef}
