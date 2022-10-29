@@ -1,5 +1,6 @@
 import Method from './method.type';
 import IntegralParams from './integral.interface';
+import MultipleIntegralParams from './multipleIntegral.interface';
 
 function getIntegralValue(
   params: IntegralParams,
@@ -27,8 +28,12 @@ function getIntegralValue(
     case 'simpson':
       return simpson(params);
     default:
-      return null;
+      const neverHappens: never = method;
+      return neverHappens;
   }
+}
+export function solveMultipleIntegral(params: MultipleIntegralParams) {
+  return 100;
 }
 
 export function leftRectIntegral(params: IntegralParams) {
