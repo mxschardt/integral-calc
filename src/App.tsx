@@ -33,7 +33,7 @@ function App() {
       variableStep
     );
 
-    setResult(integralResult?.toString() ?? '');
+    setResult(integralResult?.toFixed(5)?.toString() ?? '');
   };
 
   return (
