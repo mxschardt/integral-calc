@@ -1,6 +1,6 @@
 import Method from './method.type';
-import IntegralParams from './integral.interface';
-import MultipleIntegralParams from './multipleIntegral.interface';
+import IntegralParams from './interfaces/integral.interface';
+import MultipleIntegralParams from './interfaces/multipleIntegral.interface';
 
 function getIntegralValue(
   params: IntegralParams,
