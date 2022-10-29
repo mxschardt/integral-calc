@@ -1,6 +1,7 @@
 import { useState, useRef, FormEvent } from 'react';
 import { create, all } from 'mathjs';
-import getIntegralValue, { Method } from '../lib/Integrals';
+import getIntegralValue from '../lib/Integrals/Integrals';
+import Method from '../lib/Integrals/method.type';
 import './App.css';
 
 function App() {

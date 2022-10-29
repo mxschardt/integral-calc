@@ -1,12 +1,35 @@
-interface IntegralParams {
-  limitA: number;
-  limitB: number;
-  nSplits: number;
-  fn: (x: number) => number;
-  precision?: number;
-}
+import Method from './method.type';
+import IntegralParams from './integral.interface';
 
-export type Method = 'left-square' | 'right-square' | 'trapezoidal' | 'simpson';
+function getIntegralValue(
+  params: IntegralParams,
+  method: Method,
+  usePrecision: boolean
+) {
+  const { limitA, limitB } = params;
+
+  if (limitA === limitB) {
+    console.error('Limits must differ');
+    return null;
+  }
+
+  switch (method) {
+    case 'left-square':
+      return usePrecision
+        ? leftRectIntegralVariable(params)
+        : leftRectIntegral(params);
+    case 'right-square':
+      return usePrecision
+        ? rightRectIntegralVariable(params)
+        : rightRectIntegral(params);
+    case 'trapezoidal':
+      return trapezoidal(params);
+    case 'simpson':
+      return simpson(params);
+    default:
+      return null;
+  }
+}
 
 export function leftRectIntegral(params: IntegralParams) {
   const { limitA, limitB, nSplits, fn } = params;
@@ -107,36 +130,6 @@ export function rightRectIntegralVariable(params: IntegralParams) {
   }
 
   return I2N;
-}
-
-function getIntegralValue(
-  params: IntegralParams,
-  method: Method,
-  usePrecision: boolean
-) {
-  const { limitA, limitB } = params;
-
-  if (limitA === limitB) {
-    console.error('Limits must differ');
-    return null;
-  }
-
-  switch (method) {
-    case 'left-square':
-      return usePrecision
-        ? leftRectIntegralVariable(params)
-        : leftRectIntegral(params);
-    case 'right-square':
-      return usePrecision
-        ? rightRectIntegralVariable(params)
-        : rightRectIntegral(params);
-    case 'trapezoidal':
-      return trapezoidal(params);
-    case 'simpson':
-      return simpson(params);
-    default:
-      return null;
-  }
 }
 
 export default getIntegralValue;
