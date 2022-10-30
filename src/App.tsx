@@ -1,4 +1,4 @@
-import './App.css';
+import './styles/App.css'
 import Integral from './pages/Integral';
 import MultiplyIntegral from './pages/MultiplyIntegral';
 
