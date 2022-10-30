@@ -3,7 +3,8 @@ interface MultipleIntegralParams {
   limitB: number;
   limitC: number;
   limitD: number;
-  nSplits: number;
+  nSplitsX: number;
+  nSplitsY: number;
   fn: (x: number) => number;
 }
 

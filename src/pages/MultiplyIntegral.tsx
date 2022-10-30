@@ -8,7 +8,8 @@ import './styles/integral.css';
 function MultiplyIntegral() {
   const [equation, setEquation] = useState('');
   const [result, setResult] = useState('');
-  const [step, setStep] = useState('');
+  const [stepX, setStepX] = useState('');
+  const [stepY, setStepY] = useState('');
 
   const [limitA, setLimitA] = useState('');
   const [limitB, setLimitB] = useState('');
@@ -29,7 +30,8 @@ function MultiplyIntegral() {
         limitB: parseFloat(limitB),
         limitC: parseFloat(limitC),
         limitD: parseFloat(limitD),
-        nSplits: parseInt(step),
+        nSplitsX: parseInt(stepX),
+        nSplitsY: parseInt(stepY),
         fn,
       });
 
@@ -96,12 +98,21 @@ function MultiplyIntegral() {
 
       <div className="options">
         <label htmlFor="step">
-          Количество разбиений
+          Количество разбиений по Х
           <input
             type="number"
             className="step input"
             required
-            onChange={(e) => setStep(e.target.value)}
+            onChange={(e) => setStepX(e.target.value)}
+          />
+        </label>
+        <label htmlFor="step">
+          Количество разбиений по Y
+          <input
+            type="number"
+            className="step input"
+            required
+            onChange={(e) => setStepY(e.target.value)}
           />
         </label>
       </div>
