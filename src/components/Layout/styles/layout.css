@@ -29,6 +29,19 @@ form {
   color: var(--bg-second);
 }
 
+/* NAVBAR */
+.navbar {
+  width: 100vw;
+}
+.navbar ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.navbar li {
+  list-style: none;
+}
+
 /* FOOTER */
 footer {
   color: var(--bg-main);
