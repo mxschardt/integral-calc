@@ -1,14 +1,11 @@
-import './styles/layout.css'
-import Integral from '../../pages/Integral';
-import MultiplyIntegral from '../../pages/MultiplyIntegral';
+import './styles/layout.css';
 
-function Layout() {
+function Layout({ children }: { children?: React.ReactNode }) {
   return (
     <section className="layout">
       <h1>Калькулятор Определенных Интегралов</h1>
 
-      <Integral />
-      <MultiplyIntegral />
+      {children}
 
       <footer>
         <h3>
