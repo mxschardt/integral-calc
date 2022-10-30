@@ -3,6 +3,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { solveMultipleIntegral } from '../../lib/Integrals/Integrals';
 import IntegralSigh from '../accets/IntegralSigh';
 import LimitInput from '../components/LimitInput.tsx/LimitInput';
+import '../styles/Integral.css'
 
 function MultiplyIntegral() {
   const [equation, setEquation] = useState('');

@@ -4,6 +4,7 @@ import { solveIntegral } from '../../lib/Integrals/Integrals';
 import Method from '../../lib/Integrals/types/method.type';
 import IntegralSigh from '../accets/IntegralSigh';
 import LimitInput from '../components/LimitInput.tsx/LimitInput';
+import '../styles/Integral.css';
 
 function Integral() {
   const [equation, setEquation] = useState('');
