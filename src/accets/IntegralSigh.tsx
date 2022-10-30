@@ -1,4 +1,4 @@
-function Integral() {
+function IntegralSigh() {
   return (
     <svg
       width="46"
@@ -15,4 +15,4 @@ function Integral() {
   );
 }
 
-export default Integral;
+export default IntegralSigh;

@@ -1,8 +1,8 @@
-import Method from './method.type';
+import Method from './types/method.type';
 import IntegralParams from './interfaces/integral.interface';
 import MultipleIntegralParams from './interfaces/multipleIntegral.interface';
 
-function getIntegralValue(
+export function solveIntegral(
   params: IntegralParams,
   method: Method,
   usePrecision: boolean
@@ -36,7 +36,7 @@ export function solveMultipleIntegral(params: MultipleIntegralParams) {
   return 100;
 }
 
-export function leftRectIntegral(params: IntegralParams) {
+function leftRectIntegral(params: IntegralParams) {
   const { limitA, limitB, nSplits, fn } = params;
   const h = (limitB - limitA) / nSplits;
   let sum = 0;
@@ -48,7 +48,7 @@ export function leftRectIntegral(params: IntegralParams) {
   return sum * h;
 }
 
-export function rightRectIntegral(params: IntegralParams) {
+function rightRectIntegral(params: IntegralParams) {
   const { limitA, limitB, nSplits, fn } = params;
   const h = (limitB - limitA) / nSplits;
   let sum = 0;
@@ -60,7 +60,7 @@ export function rightRectIntegral(params: IntegralParams) {
   return sum * h;
 }
 
-export function trapezoidal(params: IntegralParams) {
+function trapezoidal(params: IntegralParams) {
   const { limitA, limitB, nSplits, fn } = params;
   const h = (limitB - limitA) / nSplits;
   let sum = (fn(limitA) + fn(limitB)) / 2;
@@ -72,7 +72,7 @@ export function trapezoidal(params: IntegralParams) {
   return sum * h;
 }
 
-export function simpson(params: IntegralParams) {
+function simpson(params: IntegralParams) {
   const { limitA, limitB, nSplits, fn } = params;
   const h = (limitB - limitA) / nSplits;
   let sum1 = 0;
@@ -88,7 +88,7 @@ export function simpson(params: IntegralParams) {
   return (h / 3) * (fn(limitA) + fn(limitB) + sum1 + sum2);
 }
 
-export function leftRectIntegralVariable(params: IntegralParams) {
+function leftRectIntegralVariable(params: IntegralParams) {
   const { limitA, limitB, nSplits, fn, precision } = params;
 
   let IN = 0;
@@ -113,7 +113,7 @@ export function leftRectIntegralVariable(params: IntegralParams) {
   return I2N;
 }
 
-export function rightRectIntegralVariable(params: IntegralParams) {
+function rightRectIntegralVariable(params: IntegralParams) {
   const { limitA, limitB, nSplits, fn, precision } = params;
 
   let IN = 0;
@@ -136,5 +136,3 @@ export function rightRectIntegralVariable(params: IntegralParams) {
 
   return I2N;
 }
-
-export default getIntegralValue;

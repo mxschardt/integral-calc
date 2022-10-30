@@ -1,17 +1,6 @@
-import LimitInputProps from './LimitInput.interface';
-
-function LimitInput(props: LimitInputProps) {
+function LimitInput(args: React.HTMLAttributes<HTMLInputElement>) {
   return (
-    <input
-      id={props.id}
-      placeholder={props.placeholder}
-      value={props.value}
-      onChange={props.onChange}
-      type="number"
-      className="input"
-      step="0.001"
-      required
-    />
+    <input type="number" className="input" step="0.001" required {...args} />
   );
 }
 export default LimitInput;

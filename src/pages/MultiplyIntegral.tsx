@@ -1,8 +1,8 @@
 import { create, all } from 'mathjs';
-import { FormEvent, useState } from 'react';
-import { solveMultipleIntegral } from '../lib/Integrals/Integrals';
-import Integral from './accets/Integral';
-import LimitInput from './components/LimitInput.tsx/LimitInput';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { solveMultipleIntegral } from '../../lib/Integrals/Integrals';
+import IntegralSigh from '../accets/IntegralSigh';
+import LimitInput from '../components/LimitInput.tsx/LimitInput';
 
 function MultiplyIntegral() {
   const [equation, setEquation] = useState('');
@@ -17,18 +17,18 @@ function MultiplyIntegral() {
   const math = create(all, {});
 
   const solveEquaton = (e: FormEvent) => {
-    e.preventDefault;
+    e.preventDefault();
 
     let result = '';
     try {
       const fn = (x: number) => math.evaluate(equation, { x });
 
       const integralResult = solveMultipleIntegral({
-        limitA: +limitA,
-        limitB: +limitB,
-        limitC: +limitC,
-        limitD: +limitD,
-        nSplits: +step,
+        limitA: parseFloat(limitA),
+        limitB: parseFloat(limitB),
+        limitC: parseFloat(limitC),
+        limitD: parseFloat(limitD),
+        nSplits: parseInt(step),
         fn,
       });
 
@@ -43,71 +43,73 @@ function MultiplyIntegral() {
 
   return (
     <form onSubmit={(e) => solveEquaton(e)}>
-      <div id="integral-input">
-        <div id="integral">
+      <div className="integral-input">
+        <div className="integral">
           <LimitInput
-            id="limit-b"
+            className="input upper-limit"
             placeholder="b"
-            value={limitB}
-            onChange={(e) => setLimitB(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setLimitB(e.target.value)
+            }
           />
           <span className="integral-sigh">
-            <Integral />
+            <IntegralSigh />
           </span>
           <LimitInput
-            id="limit-a"
+            className="input lower-limit"
             placeholder="a"
-            value={limitA}
-            onChange={(e) => setLimitA(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setLimitA(e.target.value)
+            }
           />
         </div>
         <span>dx</span>
-        <div id="integral">
+        <div className="integral">
           <LimitInput
-            id="limit-d"
+            className="input upper-limit"
             placeholder="d"
-            value={limitD}
-            onChange={(e) => setLimitD(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setLimitD(e.target.value)
+            }
           />
           <span className="integral-sigh">
-            <Integral />
+            <IntegralSigh />
           </span>
           <LimitInput
-            id="limit-c"
+            className="input lower-limit"
             placeholder="c"
-            value={limitC}
-            onChange={(e) => setLimitC(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setLimitC(e.target.value)
+            }
           />
         </div>
         <input
           type="text"
-          id="equation"
-          className="input"
+          className="equation input"
           placeholder="sin(x)"
           required
-          value={equation}
           onChange={(e) => setEquation(e.target.value)}
         />
         <span>dy</span>
       </div>
 
-      <label htmlFor="step">
-        Количество разбиений
-        <input
-          type="number"
-          id="step"
-          className="input"
-          required
-          value={step}
-          onChange={(e) => setStep(e.target.value)}
-        />
-      </label>
+      <div className="options">
+        <label htmlFor="step">
+          Количество разбиений
+          <input
+            type="number"
+            className="step input"
+            required
+            onChange={(e) => setStep(e.target.value)}
+          />
+        </label>
+      </div>
 
-      <button type="submit" id="solve-btn">
+      <button type="submit" className="solve-btn">
         Решить
       </button>
 
-      <section id="result">
+      <section className="result">
         <h2>Результат</h2>
         <input type="text" className="input" readOnly value={result} />
       </section>
