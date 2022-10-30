@@ -1,10 +1,10 @@
-import './styles/App.css'
-import Integral from './pages/Integral';
-import MultiplyIntegral from './pages/MultiplyIntegral';
+import './styles/layout.css'
+import Integral from '../../pages/Integral';
+import MultiplyIntegral from '../../pages/MultiplyIntegral';
 
-function App() {
+function Layout() {
   return (
-    <section className="App">
+    <section className="layout">
       <h1>Калькулятор Определенных Интегралов</h1>
 
       <Integral />
@@ -20,4 +20,4 @@ function App() {
   );
 }
 
-export default App;
+export default Layout;

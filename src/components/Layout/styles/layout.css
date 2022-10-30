@@ -8,7 +8,7 @@
   margin: 0 auto;
   text-align: center;
 }
-.App {
+.layout {
   color: var(--text-main);
   background-color: var(--bg-base);
 }
@@ -17,7 +17,7 @@ form {
 }
 
 /* HEADER */
-.App h1 {
+.layout h1 {
   margin: 0;
   padding: 2rem 0;
 
