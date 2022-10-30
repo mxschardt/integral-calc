@@ -31,7 +31,7 @@ function Integral() {
           limitB: parseFloat(limitB),
           nSplits: parseInt(step),
           precision:
-            parseFloat(precision) === NaN ? undefined : parseFloat(precision),
+            isNaN(parseFloat(precision)) ? undefined : parseFloat(precision),
           fn,
         },
         method,
