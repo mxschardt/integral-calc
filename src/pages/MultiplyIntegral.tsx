@@ -23,7 +23,7 @@ function MultiplyIntegral() {
 
     let result = '';
     try {
-      const fn = (x: number) => math.evaluate(equation, { x });
+      const fn = (x: number, y: number) => math.evaluate(equation, { x, y });
 
       const integralResult = solveMultipleIntegral({
         limitA: parseFloat(limitA),

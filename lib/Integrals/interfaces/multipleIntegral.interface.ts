@@ -5,7 +5,7 @@ interface MultipleIntegralParams {
   limitD: number;
   nSplitsX: number;
   nSplitsY: number;
-  fn: (x: number) => number;
+  fn: (x: number, y: number) => number;
 }
 
 export default MultipleIntegralParams;

@@ -33,7 +33,23 @@ export function solveIntegral(
   }
 }
 export function solveMultipleIntegral(params: MultipleIntegralParams) {
-  return 100;
+  const { limitA, limitB, limitC, limitD, nSplitsX, nSplitsY, fn } = params;
+
+  let IY = 0;
+  let sumX = 0;
+  let HX = (limitB - limitA) / nSplitsX;
+  let HY = (limitD - limitC) / nSplitsY;
+
+  for (let x = limitA; x <= limitB; x += HX) {
+    let sumY = 0;
+    for (let y = limitC; y <= limitD; y += HY) {
+      sumY += Math.abs(Math.sin(x + y));
+    }
+    IY = sumY * HY;
+    sumX += IY;
+  }
+
+  return sumX * HX;
 }
 
 function leftRectIntegral(params: IntegralParams) {
