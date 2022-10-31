@@ -43,7 +43,7 @@ export function solveMultipleIntegral(params: MultipleIntegralParams) {
   for (let x = limitA; x <= limitB; x += HX) {
     let sumY = 0;
     for (let y = limitC; y <= limitD; y += HY) {
-      sumY += Math.abs(Math.sin(x + y));
+      sumY += Math.abs(fn(x, y));
     }
     IY = sumY * HY;
     sumX += IY;
@@ -57,8 +57,8 @@ function leftRectIntegral(params: IntegralParams) {
   const h = (limitB - limitA) / nSplits;
   let sum = 0;
 
-  for (let x = limitA; x <= limitB - h; x += h) {
-    sum += fn(x);
+  for (let x = limitA; x <= limitB; x += h) {
+    sum +=  Math.abs(fn(x));
   }
 
   return sum * h;
@@ -69,8 +69,8 @@ function rightRectIntegral(params: IntegralParams) {
   const h = (limitB - limitA) / nSplits;
   let sum = 0;
 
-  for (let x = limitA + h; x <= limitB; x += h) {
-    sum += fn(x);
+  for (let x = limitA + h; x <= limitB + h; x += h) {
+    sum +=  Math.abs(fn(x));
   }
 
   return sum * h;
@@ -81,8 +81,8 @@ function trapezoidal(params: IntegralParams) {
   const h = (limitB - limitA) / nSplits;
   let sum = (fn(limitA) + fn(limitB)) / 2;
 
-  for (let x = limitA + h; x <= limitB - h; x += h) {
-    sum += fn(x);
+  for (let x = limitA + h; x <= limitB; x += h) {
+    sum +=  Math.abs(fn(x));
   }
 
   return sum * h;
@@ -93,12 +93,12 @@ function simpson(params: IntegralParams) {
   const h = (limitB - limitA) / nSplits;
   let sum1 = 0;
   let sum2 = 0;
-  for (let x = limitA + h; x <= limitB - h; x += 2 * h) {
-    sum1 += 4 * fn(x);
+  for (let x = limitA + h; x <= limitB; x += 2 * h) {
+    sum1 += 4 *  Math.abs(fn(x));
   }
 
-  for (let x = limitA + 2 * h; x <= limitB - 2 * h; x += 2 * h) {
-    sum2 += 2 * fn(x);
+  for (let x = limitA + 2 * h; x <= limitB - h; x += 2 * h) {
+    sum2 += 2 *  Math.abs(fn(x));
   }
 
   return (h / 3) * (fn(limitA) + fn(limitB) + sum1 + sum2);
@@ -116,8 +116,8 @@ function leftRectIntegralVariable(params: IntegralParams) {
     let sum = 0;
     let x = limitA;
 
-    for (x = limitA; x <= limitB - h; x += h) {
-      sum += fn(x);
+    for (x = limitA; x <= limitB; x += h) {
+      sum +=  Math.abs(fn(x));
     }
 
     I2N = h * sum;
@@ -140,8 +140,8 @@ function rightRectIntegralVariable(params: IntegralParams) {
   while (R > (precision ?? 0.001)) {
     let sum = 0;
 
-    for (let x = limitA + h; x <= limitB; x += h) {
-      sum += fn(x);
+    for (let x = limitA + h; x <= limitB + h; x += h) {
+      sum +=  Math.abs(fn(x));
     }
 
     I2N = h * sum;
