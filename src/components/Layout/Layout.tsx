@@ -2,17 +2,24 @@ import { Link } from 'react-router-dom';
 import './styles/layout.css';
 
 function Layout({ children }: { children?: React.ReactNode }) {
+  const pages = [
+    ['Главная', '/'],
+    ['Определенный интеграл', '/define-integral'],
+    ['Кратный интеграл', '/multiple-integral'],
+  ];
+
   return (
     <section className="layout">
       <h1>Калькулятор Определенных Интегралов</h1>
-      <nav className='navbar'>
+      <nav className="navbar">
         <ul>
-          <li>
-            <Link to='/' className='nav-item'>Определенный Интеграл</Link>
-          </li>
-          <li>
-            <Link to='/multiple' className='nav-item'>Кратный Интеграл</Link>
-          </li>
+          {pages.map((e) => (
+            <li key={e[1]}>
+              <Link to={e[1]} className="nav-item">
+                {e[0]}
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
 

@@ -16,3 +16,9 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+.main {
+  min-height: 85vh;
+  max-width: 60vw;
+  margin: 0 auto;
+}

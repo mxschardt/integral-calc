@@ -12,9 +12,6 @@
   color: var(--text-main);
   background-color: var(--bg-base);
 }
-form {
-  min-height: 85vh;
-}
 
 /* HEADER */
 .layout h1 {
@@ -31,15 +28,32 @@ form {
 
 /* NAVBAR */
 .navbar {
-  width: 100vw;
+  position: absolute;
+  top: 6rem;
+}
+.navbar a {
+  color: var(--text-main);
+  text-decoration: none;
 }
 .navbar ul {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+  display: grid;
+  gap: 1rem;
+  max-width: 200px;
 }
 .navbar li {
   list-style: none;
+}
+.nav-item {
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-input);
+  border: solid 2px var(--text-main);
+  border-radius: 5px;
+}
+.nav-item:active {
+  background-color: var(--bg-base);
 }
 
 /* FOOTER */

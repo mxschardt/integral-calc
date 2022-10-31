@@ -45,7 +45,7 @@ function MultiplyIntegral() {
   };
 
   return (
-    <form onSubmit={(e) => solveEquaton(e)}>
+    <form onSubmit={(e) => solveEquaton(e)} className='main'>
       <div className="integral-input">
         <div className="integral">
           <LimitInput
