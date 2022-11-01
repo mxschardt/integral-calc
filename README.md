@@ -1,4 +1,4 @@
-![image](https://user-images.githubusercontent.com/74490624/193668293-d50de46e-1575-4c05-8749-5d528a0f411c.png)
+![image](https://user-images.githubusercontent.com/74490624/199269363-4e790d7b-b08f-4a33-a5ee-6fe06a73dc9b.png)
 
 # Integral Calculator
 Приложение для вычисления определенных интегралов
