@@ -16,11 +16,11 @@ function Elementary() {
 
     let resultSqrt = elementary
       .sqrt(xSqrt, xSqrt === 14.76 ? 3.8 : 0.4, Number(accuracy))
-      .toFixed(5)
+      .toFixed(6)
       .toString();
     let resultRsqrt = elementary
       .rsqrt(xRsqrt, xRsqrt === 17.32 ? 0.24 : 1.5, Number(accuracy))
-      .toFixed(5)
+      .toFixed(6)
       .toString();
 
     setResultSqrt(resultSqrt);
@@ -31,11 +31,11 @@ function Elementary() {
     <form onSubmit={(e) => solveEquaton(e)} className="main elementary">
       <EquationResult
         label="e(x)"
-        result={elementary.e().toFixed(9).toString()}
+        result={elementary.e().toFixed(5).toString()}
       />
       <EquationResult
         label="sin(x)"
-        result={elementary.sin().toFixed(9).toString()}
+        result={elementary.sin().toFixed(5).toString()}
       />
       <section>
         <EquationResult label="sqrt(x)" result={resultSqrt} />
