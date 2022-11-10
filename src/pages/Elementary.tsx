@@ -31,11 +31,11 @@ function Elementary() {
     <form onSubmit={(e) => solveEquaton(e)} className="main elementary">
       <EquationResult
         label="e(x)"
-        result={elementary.e().toFixed(5).toString()}
+        result={elementary.e().toFixed(6).toString()}
       />
       <EquationResult
         label="sin(x)"
-        result={elementary.sin().toFixed(5).toString()}
+        result={elementary.sin().toFixed(6).toString()}
       />
       <section>
         <EquationResult label="sqrt(x)" result={resultSqrt} />
