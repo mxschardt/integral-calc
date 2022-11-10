@@ -16,11 +16,11 @@ function Elementary() {
 
     let resultSqrt = elementary
       .sqrt(xSqrt, xSqrt === 14.76 ? 3.8 : 0.4, Number(accuracy))
-      .toFixed(5)
+      .toFixed(6)
       .toString();
     let resultRsqrt = elementary
       .rsqrt(xRsqrt, xRsqrt === 17.32 ? 0.24 : 1.5, Number(accuracy))
-      .toFixed(5)
+      .toFixed(6)
       .toString();
 
     setResultSqrt(resultSqrt);
