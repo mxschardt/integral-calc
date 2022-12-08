@@ -6,7 +6,8 @@ function Layout({ children }: { children?: React.ReactNode }) {
     ['Главная', '/'],
     ['Определенный интеграл', '/define-integral'],
     ['Кратный интеграл', '/multiple-integral'],
-    ['Вычисление Элементарных Функций', '/elementary-fn']
+    ['Вычисление Элементарных Функций', '/elementary-fn'],
+    ['Дифференциальные Уравнения', '/diff']
   ];
 
   return (
