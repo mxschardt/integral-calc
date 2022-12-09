@@ -49,7 +49,7 @@ function Differentials() {
           <input
             type="text"
             className="equation input"
-            placeholder="y * (1 -x)"
+            placeholder="y’’ + y’/x + y"
             required
             onChange={(e) => setEquation(e.target.value)}
           />

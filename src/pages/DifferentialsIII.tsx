@@ -112,7 +112,7 @@ function Differentials() {
             className="input"
             step="0.001"
             required
-            placeholder="y'0"
+            placeholder="z0"
             onChange={(e) => setZ0(e.target.value)}
           />
         </div>
