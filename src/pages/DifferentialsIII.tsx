@@ -118,7 +118,7 @@ function Differentials() {
         </div>
         <div className="equation-result">
           <label>
-            Шаг
+           Количество разбиений
             <input
               type="number"
               className="input"
