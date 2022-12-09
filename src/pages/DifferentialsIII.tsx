@@ -53,6 +53,8 @@ function Differentials() {
             placeholder="- 2x + 5z"
             onChange={(e) => setEquationX(e.target.value)}
           />
+        </div>
+        <div className="equation-result">
           dx/dt ={' '}
           <input
             type="text"
@@ -60,6 +62,8 @@ function Differentials() {
             placeholder="sin(t – 1)x – y + 3z"
             onChange={(e) => setEquationY(e.target.value)}
           />
+        </div>
+        <div className="equation-result">
           dz/dt ={' '}
           <input
             type="text"
