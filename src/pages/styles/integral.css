@@ -104,3 +104,8 @@ input[type='number'] {
   filter: none;
   transform: translateY(5px);
 }
+
+.list-result {
+  list-style: none;
+  text-align: left;
+}

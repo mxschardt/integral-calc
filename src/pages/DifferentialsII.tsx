@@ -3,8 +3,8 @@ import { Chart, CategoryScale } from 'chart.js/auto';
 import { FormEvent, useState } from 'react';
 import SolveBtn from '../components/SolveBtn/SolveBtn';
 import {
-  EulerMethod,
-  RungeKuttaMethod,
+  EulerMethodII,
+  RungeKuttaMethodII,
 } from '../../lib/DifferentialEuations/differentialEuations';
 import { all, create } from 'mathjs';
 
@@ -16,39 +16,32 @@ function Differentials() {
   const [step, setStep] = useState('');
   const [x0, setX0] = useState('');
   const [y0, setY0] = useState('');
-  const [data, setData] = useState<number[]>([]);
-  const [labels, setLabels] = useState<number[]>([]);
-  const [graphLabel, setGraphLabel] = useState('');
-
+  const [z0, setZ0] = useState('');
+  const [dataY, setDataY] = useState<number[]>([]);
+  const [dataX, setDataX] = useState<number[]>([]);
+  const [dataZ, setDataZ] = useState<number[]>([]);
   const math = create(all, {});
 
   const solveEquation = (e: FormEvent) => {
     e.preventDefault();
 
-    const fn = (x: number, y: number) => math.evaluate(equation, { x, y });
+    const fn = (x: number, y: number, z: number) =>
+      math.evaluate(equation.replace("y''", '').replace("y'", 'z'), {
+        x,
+        y,
+        z,
+      });
 
-    const { x, y } =
+    const { x, y, z } =
       method === 'euler'
-        ? EulerMethod(+limitA, +limitB, +x0, +y0, +step, fn)
-        : RungeKuttaMethod(+limitA, +limitB, +x0, +y0, +step, fn);
+        ? EulerMethodII(+limitA, +limitB, +x0, +y0, +z0, +step, fn)
+        : RungeKuttaMethodII(+limitA, +limitB, +x0, +y0, +z0, +step, fn);
 
-    setData(y);
-    setLabels(x);
-    setGraphLabel(equation);
+    setDataY(y);
+    setDataX(x);
+    setDataZ(z);
   };
-  Chart.register(CategoryScale);
-  const graphData = {
-    labels,
-    datasets: [
-      {
-        label: graphLabel,
-        data,
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1,
-      },
-    ],
-  };
+
   return (
     <form onSubmit={(e) => solveEquation(e)} className="main">
       <div>
@@ -96,6 +89,14 @@ function Differentials() {
             placeholder="y0"
             onChange={(e) => setY0(e.target.value)}
           />
+          <input
+            type="number"
+            className="input"
+            step="0.001"
+            required
+            placeholder="y'0"
+            onChange={(e) => setZ0(e.target.value)}
+          />
         </div>
         <div className="equation-result">
           <label>
@@ -124,7 +125,14 @@ function Differentials() {
         </div>
       </div>
       <SolveBtn />
-      <Line data={graphData} options={{ responsive: true }}></Line>
+      <h2>Результаты </h2>
+      <ul className='list-result'>
+        {dataY.map((e, i) => (
+          <li key={i}>
+            {i + 1}. x: {dataX[i]}; y: {e}; y': {dataZ[i]}
+          </li>
+        ))}
+      </ul>
     </form>
   );
 }

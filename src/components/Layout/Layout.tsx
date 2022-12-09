@@ -7,7 +7,9 @@ function Layout({ children }: { children?: React.ReactNode }) {
     ['Определенный интеграл', '/define-integral'],
     ['Кратный интеграл', '/multiple-integral'],
     ['Вычисление Элементарных Функций', '/elementary-fn'],
-    ['Дифференциальные Уравнения', '/diff']
+    ['Дифференциальные Уравнения I', '/diff1'],
+    ['Дифференциальные Уравнения II', '/diff2'],
+    ['Дифференциальные Уравнения III', '/diff3']
   ];
 
   return (
