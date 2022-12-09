@@ -100,7 +100,7 @@ function Differentials() {
         </div>
         <div className="equation-result">
           <label>
-            Шаг
+            Количество разбиений
             <input
               type="number"
               className="input"
@@ -126,7 +126,7 @@ function Differentials() {
       </div>
       <SolveBtn />
       <h2>Результаты </h2>
-      <ul className='list-result'>
+      <ul className="list-result">
         {dataY.map((e, i) => (
           <li key={i}>
             {i + 1}. x: {dataX[i]}; y: {e}; y': {dataZ[i]}
